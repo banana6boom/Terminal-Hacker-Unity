@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -14,14 +11,14 @@ public class Hacker : MonoBehaviour
     string[] level5Passwords = { "musk", "starlink", "starship", "falcon", "spaceflight"};
     int level;
     string password;
+    private Screen currentScreen;
     public Text terminalText;
     enum Screen { MainMenu, Password, Win };
-    private Screen currentScreen;
-    void Start()
+    private void Start()
     {
         ShowMainMenu();
     }
-
+    
     void ShowMainMenu()
     {
         currentScreen = Screen.MainMenu;
@@ -55,16 +52,10 @@ public class Hacker : MonoBehaviour
 
     private void RunMainMenu(string input)
     {
-        if (input == "1")
+        bool isValidLevelNumber = (input == "1" || input == "2" || input == "3" || input == "4" || input == "5");
+        if (isValidLevelNumber)
         {
-            level = 1;
-            password = level1Passwords[2];
-            StartGame();
-        }
-        else if (input == "2")
-        {
-            level = 2;
-            password = level2Passwords[1];
+            level = int.Parse(input);
             StartGame();
         }
         else if (input == "batman") // easter egg
@@ -73,29 +64,98 @@ public class Hacker : MonoBehaviour
         }
         else
         {
-            Terminal.WriteLine("Please choose a valid level");
+            Terminal.WriteLine("Please choose a valid level (>_<)");
         }
     }
 
     private void StartGame()
     {
         currentScreen = Screen.Password;
-        Terminal.WriteLine("You have choosen level " + level);
         Terminal.ClearScreen();
-        Terminal.WriteLine("Please enter password ");
+        switch (level)
+        {
+            case 1:
+                password = level1Passwords[Random.Range(0, level1Passwords.Length)];
+                break;
+            case 2:
+                password = level2Passwords[Random.Range(0, level2Passwords.Length)];
+                break;
+            case 3:
+                password = level3Passwords[Random.Range(0, level3Passwords.Length)];
+                break;
+            case 4:
+                password = level4Passwords[Random.Range(0, level4Passwords.Length)];
+                break;
+            case 5:
+                password = level5Passwords[Random.Range(0, level5Passwords.Length)];
+                break;
+            default:
+                Debug.LogError("Invalid Level Number");
+                break;
+        }
+
+        Terminal.WriteLine("You have choosen level " + level);
+        Terminal.WriteLine("");
+        Terminal.WriteLine("Please enter password: ");
     }
     private void CheckPassword(string input)
     {
         if (input == password)
         {
-            Terminal.WriteLine("*ACCESS GRANTED*");
-            terminalText.color = new Color32(0, 255, 76, 255);
+            
+            DisplayWinScreen();
         }
         else
         {
             Terminal.WriteLine("*ACCESS DENIED*");
             terminalText.color = new Color32(255, 0, 0, 255);
             Terminal.WriteLine("Try again:");
+        }
+    }
+
+    private void DisplayWinScreen()
+    {
+        currentScreen = Screen.Win;
+        Terminal.ClearScreen();
+        ShowLevelReward();
+    }
+
+    private void ShowLevelReward()
+    {
+        terminalText.color = new Color32(0, 255, 76, 255);
+        Terminal.WriteLine("*ACCESS GRANTED*");
+        Terminal.WriteLine("");
+        switch(level)
+        {
+            case 1:
+                Terminal.WriteLine("(〜￣▽￣)〜 ————————————————— 〜(￣△￣〜)");
+                Terminal.WriteLine("");
+                Terminal.WriteLine("YOU HACKED A SOCIAL NETWORK!");
+                break;
+            case 2:
+                Terminal.WriteLine("(=^･ｪ･^=) ——————————————————— (=^･ｪ･^=)");
+                Terminal.WriteLine("");
+                Terminal.WriteLine("YOU HACKED THE LOCAL BANK!");
+                break;
+            case 3:
+                Terminal.WriteLine("(★^O^★) ————————————————————— (★^O^★)");
+                Terminal.WriteLine("");
+                Terminal.WriteLine("YOU HACKED THE POLICE STATION!");
+                break;
+            case 4:
+                Terminal.WriteLine("(＊◕ᴗ◕＊) ————————————————————— (＊◕ᴗ◕＊)");
+                Terminal.WriteLine("");
+                Terminal.WriteLine("YOU HACKED THE AREA 51!");
+                break;
+            case 5:
+                Terminal.WriteLine("＼(*T▽T*)／ ——————————————— ＼(*T▽T*)／");
+                Terminal.WriteLine("");
+                Terminal.WriteLine("YOU HACKED THE SPACE X!");
+                break;
+            default:
+                Debug.LogError("Invalid level reached");
+                break;
+
         }
     }
 }
