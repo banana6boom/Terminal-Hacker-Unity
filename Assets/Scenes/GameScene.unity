@@ -306,11 +306,8 @@ PrefabInstance:
       value: 'Hit Play or Ctrl+P to turn me on.
 
 
-        Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit. Pellentesque consequat porta nunc porta laoreet.
-        Nam tempor orci consequat ipsum volutpat, non tristique neque viverra. Aenean
-        sit amet sagittis lacus. Proin eu semper mi, ut tincidunt dolor. Integer
-        tortor felis, mollis vitae quam in, efficitur porta enim. '
+        TERMINAL HACKER v1.0                  
+        >_'
       objectReference: {fileID: 0}
     - target: {fileID: 114800869134824038, guid: c46548f7b668a78409fa399c095e4e6b,
         type: 3}
