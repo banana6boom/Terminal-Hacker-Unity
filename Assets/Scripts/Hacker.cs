@@ -9,6 +9,7 @@ public class Hacker : MonoBehaviour
     string[] level3Passwords = { "arrest", "prisoner", "uniform", "donuts", "handcuffs"};
     string[] level4Passwords = { "ufo", "alien", "secret", "military", "restricted" };
     string[] level5Passwords = { "musk", "starlink", "starship", "falcon", "spaceflight"};
+    const string menuHint = "You may type 'menu' to exit";
     int level;
     string password;
     private Screen currentScreen;
@@ -56,7 +57,7 @@ public class Hacker : MonoBehaviour
         if (isValidLevelNumber)
         {
             level = int.Parse(input);
-            StartGame();
+            AskForPassword();
         }
         else if (input == "batman") // easter egg
         {
@@ -65,13 +66,25 @@ public class Hacker : MonoBehaviour
         else
         {
             Terminal.WriteLine("Please choose a valid level (>_<)");
+            Terminal.WriteLine(menuHint);
         }
     }
 
-    private void StartGame()
+    private void AskForPassword()
     {
         currentScreen = Screen.Password;
         Terminal.ClearScreen();
+        SetRandomPassword();
+        Terminal.WriteLine("You have choosen level " + level);
+        Terminal.WriteLine("");
+        Terminal.WriteLine(menuHint);
+        Terminal.WriteLine("");
+        Terminal.WriteLine("Please enter password: ");
+        Terminal.WriteLine("Hint: " + password.Anagram());
+    }
+
+    private void SetRandomPassword()
+    {
         switch (level)
         {
             case 1:
@@ -93,11 +106,8 @@ public class Hacker : MonoBehaviour
                 Debug.LogError("Invalid Level Number");
                 break;
         }
-
-        Terminal.WriteLine("You have choosen level " + level);
-        Terminal.WriteLine("");
-        Terminal.WriteLine("Please enter password: ");
     }
+
     private void CheckPassword(string input)
     {
         if (input == password)
@@ -107,9 +117,11 @@ public class Hacker : MonoBehaviour
         }
         else
         {
+            //terminalText.color = new Color32(255, 0, 0, 255);
+            AskForPassword();
+            Terminal.WriteLine("");
             Terminal.WriteLine("*ACCESS DENIED*");
-            terminalText.color = new Color32(255, 0, 0, 255);
-            Terminal.WriteLine("Try again:");
+            //Terminal.WriteLine("Try again:");
         }
     }
 
@@ -118,6 +130,8 @@ public class Hacker : MonoBehaviour
         currentScreen = Screen.Win;
         Terminal.ClearScreen();
         ShowLevelReward();
+        Terminal.WriteLine("");
+        Terminal.WriteLine(menuHint);
     }
 
     private void ShowLevelReward()
