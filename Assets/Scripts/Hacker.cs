@@ -41,6 +41,11 @@ public class Hacker : MonoBehaviour
         {
             ShowMainMenu();
         } 
+        else if (input == "quit" || input == "close" || input == "exit")
+        {
+            Terminal.WriteLine("If on the WEB close the tab");
+            Application.Quit();
+        }
         else if (currentScreen == Screen.MainMenu)
         {
             RunMainMenu(input);
